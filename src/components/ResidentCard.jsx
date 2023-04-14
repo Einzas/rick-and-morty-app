@@ -34,8 +34,8 @@ const ResidentCard = ({ resident }) => {
         <h3 className="font-bold text-xl text-white">{residentInfo?.name}</h3>
         <ul className="text-white flex flex-col">
           <li className="grid grid-cols-2">
-            <span> {residentInfo?.species}</span>
             <span className="text-gray-600">Species</span>
+            <span> {residentInfo?.species}</span>
           </li>
           <li className="grid grid-cols-2">
             <span className="text-gray-600">Origin</span>
