@@ -8,7 +8,14 @@ import Header from "./components/Header";
 function App() {
   const [location, setLocation] = useState();
   const [suggestions, setSuggestions] = useState([]);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   const handleInputChange = async (e) => {
     const query = e.target.value;
     if (query) {
@@ -24,6 +31,14 @@ function App() {
       setSuggestions([]);
     }
   };
+  const handleScroll = () => {
+    if (window.scrollY > 300) {
+      setShowScrollToTop(true);
+    } else {
+      setShowScrollToTop(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newLocation = e.target.locationId.value;
@@ -33,6 +48,7 @@ function App() {
       .then((res) => {
         setLocation(res.data);
         setSuggestions([]);
+        e.target.locationId.value=""
       })
       .catch((err) => console.log(err));
   };
@@ -46,38 +62,42 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, []);
-
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
     <div className="App min-h-screen bg-[url(/images/bg.png)] px-5 pb-5 ">
       <Header />
       <div className="mt-5 flex flex-col items-center justify-center ">
         <div className="pt-5 relative">
-        <form onSubmit={handleSubmit}>
-          <input
-            placeholder="Type a location name..."
-            type="text"
-            className="border-2 text-gray-200 border-green-300 p-2 bg-transparent"
-            onChange={handleInputChange}
-            name="locationId"
-            id="locationId"
-          />
-           <button className="border-2 border-green-300 p-2 bg-green-600 ">
+          <form onSubmit={handleSubmit}>
+            <input
+              placeholder="Type a location name..."
+              type="text"
+              className="border-2 text-gray-200 border-green-300 p-2 bg-transparent"
+              onChange={handleInputChange}
+              name="locationId"
+              id="locationId"
+            />
+            <button className="border-2 border-green-300 p-2 bg-green-600 ">
               <i className="bx bx-search "></i>
             </button>
-          <ul className="absolute bg-white text-black mt-2 w-full max-h-64 overflow-auto">
-            {suggestions.map((suggestion) => (
-              <li
-                key={suggestion.id}
-                className="p-2 hover:bg-gray-200 cursor-pointer"
-                onClick={() => {
-                  setLocation(suggestion);
-                  setSuggestions([]);
-                }}
-              >
-                {suggestion.name}
-              </li>
-            ))}
-          </ul>
+            <ul className="absolute bg-white text-black mt-2 w-full max-h-64 overflow-auto">
+              {suggestions.map((suggestion) => (
+                <li
+                  key={suggestion.id}
+                  className="p-2 hover:bg-gray-200 cursor-pointer"
+                  onClick={() => {
+                    setLocation(suggestion);
+                    setSuggestions([]);
+                    locationId.value=""
+                  }}
+                >
+                  {suggestion.name}
+                </li>
+              ))}
+            </ul>
           </form>
         </div>
         <h2 className="mt-5 mb-5 text-green-300">
@@ -86,6 +106,14 @@ function App() {
         <Location location={location} />
         <ResidentList location={location} />
       </div>
+      {showScrollToTop && (
+        <button
+          className="fixed bottom-5 right-5 bg-green-600 p-3 rounded-full"
+          onClick={scrollToTop}
+        >
+          <i className="bx bx-chevron-up text-white"></i>
+        </button>
+      )}
     </div>
   );
 }
