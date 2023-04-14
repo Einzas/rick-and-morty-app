@@ -108,7 +108,7 @@ function App() {
       </div>
       {showScrollToTop && (
         <button
-          className="fixed bottom-5 right-5 bg-green-600 p-3 rounded-full"
+          className="fixed bottom-5 right-5 bg-green-600 px-3 py-2 rounded-[100%]"
           onClick={scrollToTop}
         >
           <i className="bx bx-chevron-up text-white"></i>
