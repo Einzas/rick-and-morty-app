@@ -18,6 +18,13 @@ function App() {
     });
   };
 
+  const scrollTo = (id) => {
+    const element = document.getElementById(id);
+    element.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
   const toggleMusic = () => {
     const audioElement = document.getElementById("background-music");
     if (isMusicPlaying) {
@@ -122,11 +129,11 @@ function App() {
             </ul>
           </form>
         </div>
-        <h2 className="mt-5 mb-5 text-green-300">
+        <h2 id="list" className="mt-5 mb-5 text-green-300">
           Welcome to the crazy universe!
         </h2>
         <Location location={location} />
-        <ResidentList location={location} />
+        <ResidentList scrollTo={scrollTo} location={location} />
       </div>
       {showScrollToTop && (
         <button
