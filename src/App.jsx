@@ -89,7 +89,7 @@ function App() {
       <Header />
       <audio id="background-music" src="/songs/song.mp3" loop />
       <button
-        className="fixed top-5 right-5 bg-green-600 px-3 py-2 rounded-full text-white"
+        className="fixed top-5 right-5 bg-green-600 z-10 px-3 py-2 rounded-full text-white"
         onClick={toggleMusic}
       >
         {isMusicPlaying ? (
