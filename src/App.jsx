@@ -9,12 +9,23 @@ function App() {
   const [location, setLocation] = useState();
   const [suggestions, setSuggestions] = useState([]);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+  };
+
+  const toggleMusic = () => {
+    const audioElement = document.getElementById("background-music");
+    if (isMusicPlaying) {
+      audioElement.pause();
+    } else {
+      audioElement.play();
+    }
+    setIsMusicPlaying(!isMusicPlaying);
   };
   const handleInputChange = async (e) => {
     const query = e.target.value;
@@ -48,7 +59,7 @@ function App() {
       .then((res) => {
         setLocation(res.data);
         setSuggestions([]);
-        e.target.locationId.value=""
+        e.target.locationId.value = "";
       })
       .catch((err) => console.log(err));
   };
@@ -69,6 +80,17 @@ function App() {
   return (
     <div className="App min-h-screen bg-[url(/images/bg.png)] px-5 pb-5 ">
       <Header />
+      <audio id="background-music" src="/songs/song.mp3" loop />
+      <button
+        className="fixed top-5 right-5 bg-green-600 px-3 py-2 rounded-full text-white"
+        onClick={toggleMusic}
+      >
+        {isMusicPlaying ? (
+          <i className="bx bx-pause"></i>
+        ) : (
+          <i className="bx bx-play"></i>
+        )}
+      </button>
       <div className="mt-5 flex flex-col items-center justify-center ">
         <div className="pt-5 relative">
           <form onSubmit={handleSubmit}>
@@ -91,7 +113,7 @@ function App() {
                   onClick={() => {
                     setLocation(suggestion);
                     setSuggestions([]);
-                    locationId.value=""
+                    locationId.value = "";
                   }}
                 >
                   {suggestion.name}
