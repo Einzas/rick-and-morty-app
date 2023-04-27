@@ -85,7 +85,7 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <div className="App min-h-screen bg-[url(/images/bg.png)] px-5 pb-5 ">
+    <div className="App min-h-screen bg-[url(/images/bg.png)] bg-cover px-5 pb-5 ">
       <Header />
       <audio id="background-music" src="/songs/song.mp3" loop />
       <button
